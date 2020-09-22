@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+@*<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="jquery-3.5.1.min.js"></script>*@
+<h2>Login</h2>
+<input type="text" id="name"/><br />
+<input type="text" id="email" /><br />
+<input type="text" id="password" /><br/>
+
+<button onclick="SaveDetails()">Login</button>
+<body>
+
+</body>
+<table>
+    <tbody>
+        <tr>
+            <td><input type="text" id="add"/></td>
+       
+            <td onclick="Remove()"><button>-</button></td>
+        </tr>
+    </tbody>
+
+</table>
+ <button id="button"  onclick="ADDROW()">+ADD</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var html = '<tr><td><input type="text" id="add"/></td><td><button onclick="Remove(this)">-</button></td></tr>'
+    function SaveDetails() {
+        var obj = { name: $("#name").val(), email: $("#email").val(),password:$("#password").val() }
+        $.ajax({
+            type: "POST",
+            url: "/api/LoginWebApi/Savedetails",
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            },
+            contentType: "application/json; charset=utf-8",
+            data: obj,
+            crossDomain: true,
+            cache: false,
+            success: function (data, textStatus, xhr) {
+                alert("Data Inserted");
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }  
+        })
+    }
+ 
+    function ADDROW() {
+
+        $('tbody').append(html);
+    }
+    function Remove(element) {
+        debugger;
+        $(element).parents('tr').remove();
+    }
+</script>
